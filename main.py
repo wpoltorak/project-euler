@@ -1,28 +1,10 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
 import math
 
+# https://projecteuler.net/
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
 
 # Multiples of 3 or 5
@@ -64,18 +46,36 @@ problem2(4000000)
 
 def problem3(n):
     print(f"Largest prime factor of the number ", n)
-    primes = [True for i in range(n + 1)]
-    p = 2
+    # p = 2
+    dividend = n
+    sqrtn = math.sqrt(n)
+    max_prime = divisor = 2
+    while divisor < sqrtn and dividend > 1:
+        if dividend % divisor == 0:
+            num = int(dividend / divisor)
+            max_prime = max(divisor, max_prime)
+            divisor = 2
+        else:
+            divisor += 1
+    print(max_prime)
 
-    while p * p < n:
-        if primes[p]:
-            for i in range(p * p, n + 1, p):
-                primes[i] = False
-        p += 1
-    i = n
-    while not primes[i]:
-        i -= 1
-    print(i)
+    # while p < sqrtn:
+    #     if primes[p]:
+    #         for i in range(p * p, n + 1, p):
+    #             primes[i] = False
+    #     p += 1
+    #
+    # i = n
+    #
+    # while not primes[i] or n % i != 0:
+    #     i -= 1
+
+    # print(i)
 
 
 problem3(13195)
+problem3(600851475143)
+
+ # Largest Palindrome Product
+def problem4(n):
+    print(n)
