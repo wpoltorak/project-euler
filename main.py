@@ -369,6 +369,10 @@ def problem12(n):
         for j in range(1, int(math.sqrt(triangularnum)) + 1):
             if triangularnum % j == 0:
                 divisors += 2
+        if math.sqrt(triangularnum) * math.sqrt(triangularnum) == triangularnum:
+            divisors -= 1
+
+
     print(triangularnum)
 
 
