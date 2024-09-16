@@ -2,7 +2,7 @@ from functools import reduce
 import itertools
 import math
 import operator
-import numpy
+# import numpy
 
 
 # https://projecteuler.net/
@@ -693,3 +693,27 @@ def problem17(n):
 
 problem17(5)
 problem17(1000)
+
+
+#
+# Factorial Digit Sum
+# https://projecteuler.net/problem=20
+# n! means n * (n - 1) * ... * 3 * 2 * 1). For example, 10! = 10 * 9 * ... * 3 * 2 * 1 = 3628800, and the sum of the digits 
+# of the nnumber 10! is 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
+# Find the sum of the digits in the number 100!
+def problem20(n):
+    print(f"sum of the digits in the number {n}!")
+    num = 1
+    # num = math.factorial(n)
+    for i in range(1, n + 1):
+        num = num * i
+    s = 0
+    while num:
+        s += num % 10
+        num //= 10
+    print(s)
+
+    
+problem20(10)
+problem20(100)
+
