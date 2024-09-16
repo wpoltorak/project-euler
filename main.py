@@ -1,8 +1,11 @@
+from functools import reduce
+import itertools
 import math
+import operator
+import numpy
 
 
 # https://projecteuler.net/
-
 # Multiples of 3 or 5
 # https://projecteuler.net/problem=1
 # If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9.
@@ -17,7 +20,7 @@ def problem1(n):
 
 
 problem1(10)
-problem1(1000)
+# problem1(1000)
 
 
 # Even Fibonacci Numbers
@@ -41,7 +44,7 @@ def problem2(n):
 
 
 problem2(10)
-problem2(4000000)
+# problem2(4000000)
 
 
 # Largest Prime Factor
@@ -64,14 +67,14 @@ def problem3(n):
 
 
 problem3(13195)
-problem3(600851475143)
-
+# problem3(600851475143)
 
 # Largest Palindrome Product
 # https://projecteuler.net/problem=4
 # A palindromic number reads the same both ways.
 # The largest palindrome made from the product of two -digit numbers is 9009.
 # Find the largest palindrome made from the product of two 3-digit numbers.
+
 
 def problem4(n):
     print(f"largest palindrome made from the product of two {n}-digit numbers.")
@@ -88,13 +91,13 @@ def problem4(n):
 
 
 problem4(2)
-problem4(3)
-
+# problem4(3)
 
 # Smallest multiple
 # https://projecteuler.net/problem=5
 # 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
 # What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+
 
 def problem5(n):
     print(f"smallest positive number that is evenly divisible by all of the numbers from 1 to", n)
@@ -111,10 +114,7 @@ def problem5(n):
 
 
 problem5(10)
-
-
 # problem5(20)
-
 
 # Sum Square Difference
 # https://projecteuler.net/problem=6
@@ -124,6 +124,7 @@ problem5(10)
 # Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is
 # 3025 - 385 = 2640. Find the difference between the sum of the squares of the first one hundred natural numbers and
 # the square of the sum.
+
 
 def problem6(n):
     print(f"the difference between the sum of the squares of the first {n} natural numbers and the square of the sum",
@@ -135,7 +136,7 @@ def problem6(n):
 
 
 problem6(10)
-problem6(100)
+# problem6(100)
 
 
 # 10001st Prime
@@ -156,8 +157,6 @@ def problem7(n):
 
 
 problem7(6)
-
-
 # problem7(10001)
 
 
@@ -225,7 +224,7 @@ def problem8(n):
 
 
 problem8(4)
-problem8(13)
+# problem8(13)
 
 
 # Special Pythagorean Triplet
@@ -274,8 +273,6 @@ def problem10(n):
 
 
 problem10(10)
-
-
 # problem10(2000000)
 
 
@@ -309,7 +306,7 @@ problem10(10)
 def problem11(n):
     print(f"the greatest product of {n} adjacent numbers in the same direction (up, down, left, right, or diagonally)")
     prd = 0
-
+    resolution = 20
     txtarr = ["08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08",
               "49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00",
               "81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65",
@@ -331,14 +328,31 @@ def problem11(n):
               "20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54",
               "01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"]
     arr = [[int(x) for x in txt.split()] for txt in txtarr]
+    # horizontal & vertical
+    for i in range(resolution):
+        hprd = 1
+        for j in range(resolution - n):
+            hprd = reduce(operator.mul, itertools.islice(arr[i], j, j + n))
+            prd = max(prd, hprd)
 
+    for i in range(resolution - n):
+        hprd = 1
+        # xx = numpy.where(arr[1])
+        for j in range(resolution):
+            # axx = arr[:, j]
+            # hprd = reduce(operator.mul, itertools.islice(arr[:, j], i, i + n))
+            prd = max(prd, hprd)
 
-    for x in txtarr:
-        print(txtarr)
-
-
-problem11(4)
-
+    # for i in range(resolution - n):
+    #     vprd = 1
+    #     for j in range(resolution):
+    #         vprd *= arr[j][i]
+    #         prd = max(prd, arr[i][j] * arr[i][j + 1] * arr[i][j + 2] * arr[i][j + 3])
+    #         prd = max(prd, arr[j][i] * arr[j + 1][i] * arr[j + 2][i] * arr[j + 3][i])
+    #     prd = max(prd, )
+    # diagonal
+    # diagonal
+# problem11(4)
 
 # Highly Divisible Triangular Number
 # https://projecteuler.net/problem=12
@@ -372,12 +386,11 @@ def problem12(n):
         if math.sqrt(triangularnum) * math.sqrt(triangularnum) == triangularnum:
             divisors -= 1
 
-
     print(triangularnum)
 
 
 problem12(5)
-problem12(500)
+# problem12(500)
 
 
 # Large Sum
@@ -592,7 +605,91 @@ def problem13(n):
     num = 0
     for x in arr:
         num += x
-    print(str(num)[:n])
+        print(str(num)[:n])
 
 
 problem13(10)
+
+# Longest Collatz Sequence
+# https://projecteuler.net/problem=14
+# The following iterative sequence is defined for the set of positive integers:
+#   n → n/2 (n is even)
+#   n → 3n + 1 (n is odd)
+# Using the rule above and starting with 13, we generate the following sequence:
+#  13 -> 40 -> 20 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1
+
+
+# It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms.
+# Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+# Which starting number, under one million, produces the longest chain?
+#
+# NOTE: Once the chain starts the terms are allowed to go above one million.
+def problem14(n):
+    print(f"starting number, under {n}, that produces the longest chain")
+    num = 0
+    maxlength = 0
+    for i in range(1, n):
+        j = i
+        length = 1
+        while j > 1:
+            length += 1
+            if (j % 2 == 0):
+                j = j / 2
+            else:
+                j = 3 * j + 1
+        
+        if length > maxlength:
+            maxlength = length
+            num = i
+    print(num)
+
+
+problem14(14)
+# problem14(1000000)
+
+
+# Lattice Paths
+# https://projecteuler.net/problem=15
+# Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly
+# 6 routes to the bottom right corner.
+# __     _      _
+#   |     |_     |     |__     |_     |
+#   |       |    |_       |      |_   |__
+# How many such routes are there through a 20×20 grid?
+def problem15(n):
+    print(n)
+
+
+# Power Digit Sum
+# https://projecteuler.net/problem=16
+# 2^15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 =     26.
+# What is the sum of the digits of the number 2^1000?
+def problem16(n):
+    print(f"sum of the digits of the number 2^{n}?")
+    s = 0
+    num = pow(2, n)
+    while num:
+        s += num % 10
+        num //= 10
+        
+    print(s)
+
+
+problem16(15)
+problem16(1000)
+
+# Number Letter Counts
+# https://projecteuler.net/problem=17
+# If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+# If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
+
+
+def problem17(n):
+    print(f"sum of the letters used in numbers from 1 to {n} inclusive")
+    
+    num = 0
+    print(num)
+
+
+problem17(5)
+problem17(1000)
