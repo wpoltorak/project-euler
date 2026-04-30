@@ -10,7 +10,7 @@ import pytest
 from main import (
     problem1, problem2, problem3, problem4, problem5, problem6, problem7,
     problem8, problem9, problem10, problem12, problem13, problem14, problem16,
-    problem20
+    problem17, problem20
 )
 
 
@@ -230,6 +230,21 @@ class TestProblem16:
     def test_official(self):
         """Test with Project Euler parameter"""
         assert problem16(1000) == 1366
+
+
+class TestProblem17:
+    """Problem 17: Number Letter Counts"""
+
+    def test_small_range(self):
+        """Test with numbers 1-5"""
+        # one(3) + two(3) + three(5) + four(4) + five(4) = 19
+        assert problem17(5) == 19
+
+    def test_range_to_1000(self):
+        """Test with numbers 1-1000"""
+        # This is the official Project Euler answer
+        result = problem17(1000)
+        assert result == 21124
 
 
 class TestProblem20:
