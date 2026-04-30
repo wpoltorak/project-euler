@@ -14,19 +14,8 @@ Reference: https://projecteuler.net/
 
 from functools import reduce
 from typing import Generator, List, Tuple
-import itertools
 import math
 import operator
-
-
-class ProjectEuler:
-    """Base class for Project Euler problem solutions."""
-
-    @staticmethod
-    def _print_result(problem_num: int, description: str, result: int) -> None:
-        """Print solution result in a consistent format."""
-        print(f"Problem {problem_num}: {description}")
-        print(f"Answer: {result}\n")
 
 
 # ============================================================================
@@ -73,19 +62,20 @@ def problem2(n: int) -> int:
 
 def largest_prime_factor(n: int) -> int:
     """Find the largest prime factor of n."""
-    dividend = n
-    sqrt_n = int(math.sqrt(n))
     max_prime = 2
     divisor = 2
+    while n % 2 == 0:
+        n //= 2
+    if n == 1:
+        return 2
 
-    while divisor <= sqrt_n and dividend > 1:
-        if dividend % divisor == 0:
-            dividend //= divisor
-            max_prime = divisor
+    while divisor * divisor <= n:
+        if n % divisor == 0:
+            n //= divisor
         else:
-            divisor += 1
+            divisor += 2
 
-    return max(max_prime, dividend) if dividend > 1 else max_prime
+    return n
 
 
 def problem3(n: int) -> int:
@@ -114,7 +104,7 @@ def problem4(num_digits: int) -> int:
 
     return max(
         (i * j for i in range(min_num, max_num)
-         for j in range(min_num, max_num) if is_palindrome(i * j)),
+         for j in range(i, max_num) if is_palindrome(i * j)),
         default=0
     )
 
@@ -129,12 +119,7 @@ def problem4(num_digits: int) -> int:
 
 def problem5(n: int) -> int:
     """Find the smallest positive number evenly divisible by 1 to n."""
-    current = n
-    while True:
-        if all(current % i == 0 for i in range(1, n + 1)):
-            return current
-        current += n
-
+    return reduce(math.lcm, range(1, n + 1))
 
 # ============================================================================
 # Problem 6: Sum Square Difference
@@ -162,15 +147,18 @@ def problem6(n: int) -> int:
 
 def nth_prime(n: int) -> int:
     """Find the nth prime number."""
-    primes: List[int] = []
-    candidate = 2
+    limit = int(n*(math.log(n) + math.log(math.log(n))))
+    sieve = [True] * (limit + 1)
+    count = 0
 
-    while len(primes) < n:
-        if all(candidate % p != 0 for p in primes):
-            primes.append(candidate)
-        candidate += 1
-
-    return primes[-1]
+    for p in range(2, limit + 1):
+        if sieve[p]:
+            count += 1
+            if count == n:
+                return p
+            # Mark multiples of p as not prime
+            for i in range(p * p, limit + 1, p):
+                sieve[i] = False
 
 
 def problem7(n: int) -> int:
@@ -517,71 +505,23 @@ def problem20(n: int) -> int:
 # ============================================================================
 
 if __name__ == "__main__":
-    # Test cases with smaller values for quick validation
     print("=" * 70)
     print("PROJECT EULER SOLUTIONS")
     print("=" * 70 + "\n")
 
-    # Problem 1
-    result = problem1(10)
-    print(f"Problem 1 - Sum of multiples of 3 or 5 below 10: {result}\n")
-
-    # Problem 2
-    result = problem2(10)
-    print(f"Problem 2 - Sum of even Fibonacci numbers below 10: {result}\n")
-
-    # Problem 3
-    result = problem3(13195)
-    print(f"Problem 3 - Largest prime factor of 13,195: {result}\n")
-
-    # Problem 4
-    result = problem4(2)
-    print(f"Problem 4 - Largest palindrome product of 2-digit numbers: {result}\n")
-
-    # Problem 5
-    result = problem5(10)
-    print(f"Problem 5 - Smallest multiple of 1-10: {result}\n")
-
-    # Problem 6
-    result = problem6(10)
-    print(f"Problem 6 - Sum square difference for first 10 numbers: {result}\n")
-
-    # Problem 7
-    result = problem7(6)
-    print(f"Problem 7 - The 6th prime number: {result}\n")
-
-    # Problem 8
-    result = problem8(4)
-    print(f"Problem 8 - Largest product of 4 adjacent digits: {result}\n")
-
-    # Problem 9
-    result = problem9(1000)
-    print(f"Problem 9 - Pythagorean triplet product (a+b+c=1000): {result}\n")
-
-    # Problem 10
-    result = problem10(10)
-    print(f"Problem 10 - Sum of primes below 10: {result}\n")
-
-    # Problem 12
-    result = problem12(5)
-    print(f"Problem 12 - First triangle number with 5+ divisors: {result}\n")
-
-    # Problem 13
-    result = problem13(10)
-    print(f"Problem 13 - First 10 digits of large sum: {result}\n")
-
-    # Problem 14
-    result = problem14(14)
-    print(f"Problem 14 - Starting number with longest Collatz (< 14): {result}\n")
-
-    # Problem 16
-    result = problem16(15)
-    print(f"Problem 16 - Sum of digits of 2^15: {result}\n")
-
-    # Problem 17
-    result = problem17(5)
-    print(f"Problem 17 - Number letter counts for 1-5: {result}\n")
-
-    # Problem 20
-    result = problem20(10)
-    print(f"Problem 20 - Sum of digits of 10!: {result}\n")
+    print(f"Problem 1  - Sum of multiples of 3 or 5 below 1000:                {problem1(1000)}")
+    print(f"Problem 2  - Sum of even Fibonacci numbers below 4,000,000:        {problem2(4000000)}")
+    print(f"Problem 3  - Largest prime factor of 600,851,475,143:              {problem3(600851475143)}")
+    print(f"Problem 4  - Largest palindrome product of 3-digit numbers:        {problem4(3)}")
+    print(f"Problem 5  - Smallest multiple of 1-20:                            {problem5(20)}")
+    print(f"Problem 6  - Sum square difference for first 100 numbers:          {problem6(100)}")
+    print(f"Problem 7  - The 10001st prime number:                             {problem7(10001)}")
+    print(f"Problem 8  - Largest product of 13 adjacent digits:                {problem8(13)}")
+    print(f"Problem 9  - Pythagorean triplet product (a+b+c=1000):             {problem9(1000)}")
+    print(f"Problem 10 - Sum of primes below 2,000,000:                        {problem10(2000000)}")
+    print(f"Problem 12 - First triangle number with 500+ divisors:             {problem12(500)}")
+    print(f"Problem 13 - First 10 digits of large sum:                         {problem13(10)}")
+    print(f"Problem 14 - Starting number under 1,000,000 with longest Collatz: {problem14(1000000)}")
+    print(f"Problem 16 - Sum of digits of 2^1000:                              {problem16(1000)}")
+    print(f"Problem 17 - Number letter counts for 1-1000:                      {problem17(1000)}")
+    print(f"Problem 20 - Sum of digits of 100!:                                {problem20(100)}")

@@ -206,10 +206,8 @@ class TestProblem14:
         assert problem14(14) == 9
 
     def test_limit_1000(self):
-        """Test with limit 1000"""
-        result = problem14(1000)
-        assert result > 0
-        assert result < 1000
+        """Test with limit 1000 (answer: 871)"""
+        assert problem14(1000) == 871
 
     def test_official(self):
         """Test with Project Euler parameter (may take ~10-15 seconds)"""

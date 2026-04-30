@@ -1,0 +1,7 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+markers = [
+    "slow: marks tests that use full Project Euler parameters (deselect with '-m \"not slow\"')",
+]
