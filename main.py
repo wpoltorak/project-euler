@@ -4,6 +4,11 @@ Project Euler Solutions
 A collection of solutions to Project Euler problems demonstrating
 clean code practices and pythonic programming patterns.
 
+Project Euler is a series of challenging mathematical and computer programming
+problems that require both mathematical insight and programming skill to solve.
+Problems range from simple to very difficult and build upon concepts from
+number theory, combinatorics, and computational geometry.
+
 Reference: https://projecteuler.net/
 """
 
@@ -458,6 +463,43 @@ def problem16(n: int) -> int:
 
 
 # ============================================================================
+# Problem 17: Number Letter Counts
+# ============================================================================
+# If the numbers 1 to 5 are written out in words: one, two, three, four, five,
+# then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+# Find the total number of letters used if all numbers 1 to n are written out.
+# Reference: https://projecteuler.net/problem=17
+
+def number_to_words_length(n: int) -> int:
+    """Return the number of letters in English word representation of n."""
+    ones = ["", "one", "two", "three", "four", "five", "six", "seven",
+            "eight", "nine", "ten", "eleven", "twelve", "thirteen",
+            "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
+            "nineteen"]
+    tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty",
+            "seventy", "eighty", "ninety"]
+
+    if n == 0:
+        return 0
+    elif n < 20:
+        return len(ones[n])
+    elif n < 100:
+        return len(tens[n // 10]) + len(ones[n % 10])
+    elif n < 1000:
+        result = len(ones[n // 100]) + len("hundred")
+        if n % 100 != 0:
+            result += len("and") + number_to_words_length(n % 100)
+        return result
+    elif n == 1000:
+        return len("onethousand")
+
+
+def problem17(n: int) -> int:
+    """Return total number of letters used writing numbers 1 to n in words."""
+    return sum(number_to_words_length(i) for i in range(1, n + 1))
+
+
+# ============================================================================
 # Problem 20: Factorial Digit Sum
 # ============================================================================
 # n! means n × (n-1) × ... × 3 × 2 × 1. For example, 10! = 3628800,
@@ -475,67 +517,71 @@ def problem20(n: int) -> int:
 # ============================================================================
 
 if __name__ == "__main__":
-    # Test cases with smaller values
+    # Test cases with smaller values for quick validation
     print("=" * 70)
     print("PROJECT EULER SOLUTIONS")
     print("=" * 70 + "\n")
 
     # Problem 1
-    result = problem1(1000)
-    print(f"Problem 1 - Sum of multiples of 3 or 5 below 1000: {result}\n")
+    result = problem1(10)
+    print(f"Problem 1 - Sum of multiples of 3 or 5 below 10: {result}\n")
 
     # Problem 2
-    result = problem2(4000000)
-    print(f"Problem 2 - Sum of even Fibonacci numbers below 4,000,000: {result}\n")
+    result = problem2(10)
+    print(f"Problem 2 - Sum of even Fibonacci numbers below 10: {result}\n")
 
     # Problem 3
-    result = problem3(600851475143)
-    print(f"Problem 3 - Largest prime factor of 600,851,475,143: {result}\n")
+    result = problem3(13195)
+    print(f"Problem 3 - Largest prime factor of 13,195: {result}\n")
 
     # Problem 4
-    result = problem4(3)
-    print(f"Problem 4 - Largest palindrome product of 3-digit numbers: {result}\n")
+    result = problem4(2)
+    print(f"Problem 4 - Largest palindrome product of 2-digit numbers: {result}\n")
 
     # Problem 5
-    result = problem5(20)
-    print(f"Problem 5 - Smallest multiple of 1-20: {result}\n")
+    result = problem5(10)
+    print(f"Problem 5 - Smallest multiple of 1-10: {result}\n")
 
     # Problem 6
-    result = problem6(100)
-    print(f"Problem 6 - Sum square difference for first 100 numbers: {result}\n")
+    result = problem6(10)
+    print(f"Problem 6 - Sum square difference for first 10 numbers: {result}\n")
 
     # Problem 7
-    result = problem7(10001)
-    print(f"Problem 7 - The 10,001st prime number: {result}\n")
+    result = problem7(6)
+    print(f"Problem 7 - The 6th prime number: {result}\n")
 
     # Problem 8
-    result = problem8(13)
-    print(f"Problem 8 - Largest product of 13 adjacent digits: {result}\n")
+    result = problem8(4)
+    print(f"Problem 8 - Largest product of 4 adjacent digits: {result}\n")
 
     # Problem 9
     result = problem9(1000)
     print(f"Problem 9 - Pythagorean triplet product (a+b+c=1000): {result}\n")
 
     # Problem 10
-    result = problem10(2000000)
-    print(f"Problem 10 - Sum of primes below 2,000,000: {result}\n")
+    result = problem10(10)
+    print(f"Problem 10 - Sum of primes below 10: {result}\n")
 
     # Problem 12
-    result = problem12(500)
-    print(f"Problem 12 - First triangle number with 500+ divisors: {result}\n")
+    result = problem12(5)
+    print(f"Problem 12 - First triangle number with 5+ divisors: {result}\n")
 
     # Problem 13
     result = problem13(10)
     print(f"Problem 13 - First 10 digits of large sum: {result}\n")
 
     # Problem 14
-    result = problem14(1000000)
-    print(f"Problem 14 - Starting number with longest Collatz (< 1M): {result}\n")
+    result = problem14(14)
+    print(f"Problem 14 - Starting number with longest Collatz (< 14): {result}\n")
 
     # Problem 16
-    result = problem16(1000)
-    print(f"Problem 16 - Sum of digits of 2^1000: {result}\n")
+    result = problem16(15)
+    print(f"Problem 16 - Sum of digits of 2^15: {result}\n")
+
+    # Problem 17
+    result = problem17(5)
+    print(f"Problem 17 - Number letter counts for 1-5: {result}\n")
 
     # Problem 20
-    result = problem20(100)
-    print(f"Problem 20 - Sum of digits of 100!: {result}\n")
+    result = problem20(10)
+    print(f"Problem 20 - Sum of digits of 10!: {result}\n")
