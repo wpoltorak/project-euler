@@ -501,6 +501,9 @@ def digit_sum(n: int) -> int:
     """Calculate the sum of digits of n."""
     return sum(int(digit) for digit in str(n))
 
+def problem15(n: int) -> int:
+    """Return the number of lattice paths in an n x n grid."""
+    return math.comb(2 * n, n)
 
 def problem16(n: int) -> int:
     """Return the sum of digits of 2^n."""
@@ -576,10 +579,11 @@ if __name__ == "__main__":
     print(f"Problem 8  - Largest product of 13 adjacent digits:                {problem8(13)}")
     print(f"Problem 9  - Pythagorean triplet product (a+b+c=1000):             {problem9(1000)}")
     print(f"Problem 10 - Sum of primes below 2,000,000:                        {problem10(2000000)}")
-    print(f"Problem 11 - Greatest product of 4 adjacent numbers               {problem11(4)}")
+    print(f"Problem 11 - Greatest product of 4 adjacent numbers                {problem11(4)}")
     print(f"Problem 12 - First triangle number with 500+ divisors:             {problem12(500)}")
     print(f"Problem 13 - First 10 digits of large sum:                         {problem13(10)}")
     print(f"Problem 14 - Starting number under 1,000,000 with longest Collatz: {problem14(1000000)}")
+    print(f"Problem 15 - Number of unique routes in grid:                      {problem15(20)}")
     print(f"Problem 16 - Sum of digits of 2^1000:                              {problem16(1000)}")
     print(f"Problem 17 - Number letter counts for 1-1000:                      {problem17(1000)}")
     print(f"Problem 20 - Sum of digits of 100!:                                {problem20(100)}")
